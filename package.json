@@ -57,5 +57,9 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "mapbox": "^1.0.0-beta10",
+    "viewport-mercator-project": "^6.0.0"
+  }
 }
