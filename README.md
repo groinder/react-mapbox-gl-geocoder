@@ -70,7 +70,7 @@ class App extends Component {
 | mapboxApiAccessToken | (required) string | [Mapbox Access Token](https://www.mapbox.com/help/define-access-token/) | - |
 | timeout              | int               | Debounce between pressing the key and quering the results | 300 |
 | viewport | object | [Map Viewport](https://uber.github.io/react-map-gl/#/documentation/api-reference/static-map?section=map-state) | - |
-| onSelected | function(viewport, item) | Receives selected item and the viewport to set for the selected [item](https://www.mapbox.com/api-documentation/?language=JavaScript#response-object) | - |
+| onSelected | (required) function(viewport, item) | Receives selected item and the viewport to set for the selected [item](https://www.mapbox.com/api-documentation/?language=JavaScript#response-object) | - |
 | transitionDuration | int | Duration of the smooth transition | 0 |
 | hideOnSelect | bool | Whether to hide results on select or not | false |
 | pointZoom | int | Zoom to set if a specific location (without bbox) is selected | 16 |
@@ -87,6 +87,8 @@ This component does NOT come with any styles. You can style it yourself by using
 | .react-geocoder | component wrapper class |
 | .react-geocoder-results | results wrapper class |  
 | .react-geocoder-item | single result class |
+
+### Replacing components
 
 You can even supplement your own components:
 
