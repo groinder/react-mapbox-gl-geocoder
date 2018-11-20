@@ -101,8 +101,8 @@ Geocoder.propTypes = {
     mapboxApiAccessToken: PropTypes.string.isRequired,
     formatItem: PropTypes.func,
     className: PropTypes.string,
-    inputComponent: PropTypes.node,
-    itemComponent: PropTypes.node,
+    inputComponent: PropTypes.func,
+    itemComponent: PropTypes.func,
     limit: PropTypes.number,
     localGeocoder: PropTypes.func
 };
