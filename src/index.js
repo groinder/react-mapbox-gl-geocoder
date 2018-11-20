@@ -9,16 +9,25 @@ class Geocoder extends Component {
         results: []
     };
     onChange = (event) => {
-        const {timeout, queryParams} = this.props;
-        const query = event.target.value;
+        const {timeout, queryParams, localGeocoder, limit} = this.props;
+        const queryString = event.target.value;
 
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
-            this.client.geocodeForward(query, queryParams).then((res) => {
-                this.setState({
-                    results: res.entity.features
+            const localResults = localGeocoder ? localGeocoder(queryString) : [];
+            const params = {...queryParams, ...{limit: limit - localResults.length}};
+
+            if (limit > 0) {
+                this.client.geocodeForward(queryString, params).then((res) => {
+                    this.setState({
+                        results: [...localResults, ...res.entity.features]
+                    });
                 });
-            });
+            } else {
+                this.setState({
+                    results: localResults
+                });
+            }
         }, timeout);
     };
     onSelected = (item) => {
@@ -63,7 +72,7 @@ class Geocoder extends Component {
 
         return (
             <div className={`react-geocoder ${className}`}>
-                <Input onChange={this.onChange} />
+                <Input onChange={this.onChange}/>
 
                 {!!results.length &&
                 <div className='react-geocoder-results'>
@@ -93,7 +102,9 @@ Geocoder.propTypes = {
     formatItem: PropTypes.func,
     className: PropTypes.string,
     inputComponent: PropTypes.element,
-    itemComponent: PropTypes.element
+    itemComponent: PropTypes.element,
+    limit: PropTypes.number,
+    localGeocoder: PropTypes.func
 };
 
 Geocoder.defaultProps = {
@@ -103,7 +114,8 @@ Geocoder.defaultProps = {
     pointZoom: 16,
     formatItem: item => item.place_name,
     queryParams: {},
-    className: ''
+    className: '',
+    limit: 5
 };
 
 export default Geocoder;

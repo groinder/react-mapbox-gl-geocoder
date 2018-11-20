@@ -77,6 +77,8 @@ class App extends Component {
 | formatItem | function(item) | Function used for formatting results | item => item.place_name |
 | className | string | Class to add to the top component | - |
 | queryParams | object | Query parameters to use when searching of the results, you can see available options [here](https://www.mapbox.com/api-documentation/?language=JavaScript#search-for-places) | - |
+| limit | int | Limit of the results | 5 |
+| localGeocoder | function(queryString) | Function to supplement local results to geocoder | - |
 
 ## Styling
 
