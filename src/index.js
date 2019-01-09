@@ -9,7 +9,7 @@ class Geocoder extends Component {
         results: []
     };
     onChange = (event) => {
-        const {timeout, queryParams, localGeocoder, limit} = this.props;
+        const {timeout, queryParams, localGeocoder, limit, localOnly} = this.props;
         const queryString = event.target.value;
 
         clearTimeout(this.debounceTimeout);
@@ -17,7 +17,7 @@ class Geocoder extends Component {
             const localResults = localGeocoder ? localGeocoder(queryString) : [];
             const params = {...queryParams, ...{limit: limit - localResults.length}};
 
-            if (limit > 0) {
+            if (params.limit > 0 && !localOnly) {
                 this.client.geocodeForward(queryString, params).then((res) => {
                     this.setState({
                         results: [...localResults, ...res.entity.features]
@@ -104,7 +104,8 @@ Geocoder.propTypes = {
     inputComponent: PropTypes.func,
     itemComponent: PropTypes.func,
     limit: PropTypes.number,
-    localGeocoder: PropTypes.func
+    localGeocoder: PropTypes.func,
+    localOnly: PropTypes.bool
 };
 
 Geocoder.defaultProps = {
