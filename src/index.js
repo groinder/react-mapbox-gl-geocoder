@@ -6,8 +6,10 @@ import {WebMercatorViewport} from 'viewport-mercator-project';
 class Geocoder extends Component {
     debounceTimeout = null;
     state = {
-        results: []
+        results: [],
+        showResults: false
     };
+
     onChange = (event) => {
         const {timeout, queryParams, localGeocoder, limit, localOnly} = this.props;
         const queryString = event.target.value;
@@ -57,6 +59,14 @@ class Geocoder extends Component {
         }
     };
 
+    showResults = () => {
+        this.setState({showResults: true});
+    };
+
+    hideResults = () => {
+        this.setState({showResults: false});
+    };
+
     constructor(props) {
         super();
 
@@ -64,7 +74,7 @@ class Geocoder extends Component {
     }
 
     render() {
-        const {results} = this.state;
+        const {results, showResults} = this.state;
         const {formatItem, className, inputComponent, itemComponent} = this.props;
 
         const Input = inputComponent || 'input';
@@ -72,9 +82,9 @@ class Geocoder extends Component {
 
         return (
             <div className={`react-geocoder ${className}`}>
-                <Input onChange={this.onChange}/>
+                <Input onChange={this.onChange} onBlur={this.hideResults} onFocus={this.showResults}/>
 
-                {!!results.length &&
+                {showResults && !!results.length &&
                 <div className='react-geocoder-results'>
                     {results.map((item, index) => (
                         <Item
