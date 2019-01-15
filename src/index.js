@@ -66,7 +66,7 @@ class Geocoder extends Component {
     hideResults = () => {
         setTimeout(() => {
             this.setState({showResults: false});
-        }, 100);
+        }, 300);
     };
 
     constructor(props) {
