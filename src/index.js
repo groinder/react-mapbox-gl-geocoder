@@ -7,12 +7,17 @@ class Geocoder extends Component {
     debounceTimeout = null;
     state = {
         results: [],
-        showResults: false
+        showResults: false,
+        inputValue: ''
     };
 
     onChange = (event) => {
         const {timeout, queryParams, localGeocoder, limit, localOnly} = this.props;
         const queryString = event.target.value;
+
+        this.setState({
+            inputValue: event.target.value
+        });
 
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
@@ -33,7 +38,7 @@ class Geocoder extends Component {
         }, timeout);
     };
     onSelected = (item) => {
-        const {viewport, onSelected, transitionDuration, hideOnSelect, pointZoom} = this.props;
+        const {viewport, onSelected, transitionDuration, hideOnSelect, pointZoom, formatItem, updateInputOnSelect} = this.props;
         let newViewport = new WebMercatorViewport(viewport);
         const {bbox, center} = item;
 
@@ -57,6 +62,10 @@ class Geocoder extends Component {
         if (hideOnSelect) {
             this.setState({results: []});
         }
+
+        if (updateInputOnSelect) {
+            this.setState({inputValue: formatItem(item)});
+        }
     };
 
     showResults = () => {
@@ -76,7 +85,7 @@ class Geocoder extends Component {
     }
 
     render() {
-        const {results, showResults} = this.state;
+        const {results, showResults, inputValue} = this.state;
         const {formatItem, className, inputComponent, itemComponent} = this.props;
 
         const Input = inputComponent || 'input';
@@ -84,7 +93,7 @@ class Geocoder extends Component {
 
         return (
             <div className={`react-geocoder ${className}`}>
-                <Input onChange={this.onChange} onBlur={this.hideResults} onFocus={this.showResults}/>
+                <Input onChange={this.onChange} onBlur={this.hideResults} onFocus={this.showResults} value={inputValue} />
 
                 {showResults && !!results.length &&
                 <div className='react-geocoder-results'>
@@ -117,13 +126,15 @@ Geocoder.propTypes = {
     itemComponent: PropTypes.func,
     limit: PropTypes.number,
     localGeocoder: PropTypes.func,
-    localOnly: PropTypes.bool
+    localOnly: PropTypes.bool,
+    updateInputOnSelect: PropTypes.bool
 };
 
 Geocoder.defaultProps = {
     timeout: 300,
     transitionDuration: 0,
     hideOnSelect: false,
+    updateInputOnSelect: false,
     pointZoom: 16,
     formatItem: item => item.place_name,
     queryParams: {},
