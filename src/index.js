@@ -34,7 +34,7 @@ class Geocoder extends Component {
             const localResults = localGeocoder ? localGeocoder(queryString) : [];
             const params = {...queryParams, ...{limit: limit - localResults.length}};
 
-            if (params.limit > 0 && !localOnly) {
+            if (params.limit > 0 && !localOnly && queryString.length > 0) {
                 this.client.geocodeForward(queryString, params).then((res) => {
                     this.setState({
                         results: [...localResults, ...res.entity.features]
