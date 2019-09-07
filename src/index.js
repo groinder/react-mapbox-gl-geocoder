@@ -8,8 +8,18 @@ class Geocoder extends Component {
     state = {
         results: [],
         showResults: false,
-        inputValue: ''
+        inputValue: null
     };
+
+    static getDerivedStateFromProps(nextProps, state) {
+        if (state.inputValue === null && nextProps.initialInputValue !== '') {
+            return {
+                inputValue: nextProps.initialInputValue
+            };
+        }
+
+        return null;
+    }
 
     onChange = (event) => {
         const {timeout, queryParams, localGeocoder, limit, localOnly} = this.props;
@@ -127,7 +137,8 @@ Geocoder.propTypes = {
     limit: PropTypes.number,
     localGeocoder: PropTypes.func,
     localOnly: PropTypes.bool,
-    updateInputOnSelect: PropTypes.bool
+    updateInputOnSelect: PropTypes.bool,
+    initialInputValue: PropTypes.string
 };
 
 Geocoder.defaultProps = {
@@ -139,7 +150,8 @@ Geocoder.defaultProps = {
     formatItem: item => item.place_name,
     queryParams: {},
     className: '',
-    limit: 5
+    limit: 5,
+    initialInputValue: ''
 };
 
 export default Geocoder;
