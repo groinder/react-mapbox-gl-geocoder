@@ -73,12 +73,14 @@ class App extends Component {
 | onSelected | (required) function(viewport, item) | Receives selected item and the viewport to set for the selected [item](https://www.mapbox.com/api-documentation/?language=JavaScript#response-object) | - |
 | transitionDuration | int | Duration of the smooth transition | 0 |
 | hideOnSelect | bool | Whether to hide results on select or not | false |
+| updateInputOnSelect | bool | Whether to set the input value to the selected location | false |
 | pointZoom | int | Zoom to set if a specific location (without bbox) is selected | 16 |
 | formatItem | function(item) | Function used for formatting results | item => item.place_name |
 | className | string | Class to add to the top component | - |
 | queryParams | object | Query parameters to use when searching of the results, you can see available options [here](https://www.mapbox.com/api-documentation/?language=JavaScript#search-for-places) | - |
 | limit | int | Limit of the results | 5 |
 | localGeocoder | function(queryString) | Function to supplement local results to geocoder | - |
+| initialInputValue | string | The initial input value | '' |
 
 ## Styling
 
