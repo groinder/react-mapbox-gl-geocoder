@@ -8,11 +8,11 @@ class Geocoder extends Component {
     state = {
         results: [],
         showResults: false,
-        inputValue: null
+        inputValue: ''
     };
 
     static getDerivedStateFromProps(nextProps, state) {
-        if (state.inputValue === null && nextProps.initialInputValue !== '') {
+        if (state.inputValue.length === 0 && nextProps.initialInputValue !== '') {
             return {
                 inputValue: nextProps.initialInputValue
             };
