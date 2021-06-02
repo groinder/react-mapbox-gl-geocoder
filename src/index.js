@@ -79,10 +79,17 @@ class Geocoder extends Component {
     };
 
     showResults = () => {
+        if(this.props.onFocus) {
+            this.props.onFocus()
+        }
         this.setState({showResults: true});
     };
 
     hideResults = () => {
+        if(this.props.onBlur) {
+            this.props.onBlur()
+        }
+
         setTimeout(() => {
             this.setState({showResults: false});
         }, 300);
@@ -138,7 +145,9 @@ Geocoder.propTypes = {
     localGeocoder: PropTypes.func,
     localOnly: PropTypes.bool,
     updateInputOnSelect: PropTypes.bool,
-    initialInputValue: PropTypes.string
+    initialInputValue: PropTypes.string,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func
 };
 
 Geocoder.defaultProps = {
